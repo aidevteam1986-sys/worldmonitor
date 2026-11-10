@@ -272,23 +272,29 @@ export function showProBanner(container: HTMLElement): void {
   const banner = document.createElement('div');
   banner.className = 'pro-banner';
   banner.dataset.billingState = returning ? 'lapsed' : 'upgrade';
-  setTrustedHtml(banner, trustedHtml(`
-    <span class="pro-banner-badge">${returning ? t('components.billingState.resubscribe') : t('components.proBanner.badge')}</span>
+  // Upgrade state shows only the red-bordered headline; the lapsed state keeps
+  // its resubscribe CTA and dismiss control.
+  setTrustedHtml(banner, trustedHtml(returning ? `
+    <span class="pro-banner-badge">${t('components.billingState.resubscribe')}</span>
     <span class="pro-banner-text">
-      <strong>${returning ? t('components.billingState.lapsedDesc') : t('components.proBanner.headline')}</strong>${returning ? '' : `<span class="pro-banner-tagline"> — ${t('components.proBanner.tagline')}</span>`}
+      <strong>${t('components.billingState.lapsedDesc')}</strong>
     </span>
-    <a class="pro-banner-cta" href="${ctaHref}">${returning ? t('components.billingState.resubscribe') : t('components.proBanner.cta')}</a>
+    <a class="pro-banner-cta" href="${ctaHref}">${t('components.billingState.resubscribe')}</a>
     <button class="pro-banner-close" aria-label="${t('components.proBanner.dismiss')}">×</button>
+  ` : `
+    <span class="pro-banner-text">
+      <strong>${t('components.proBanner.headline')}</strong>
+    </span>
   `, "legacy direct innerHTML migration"));
 
   // Tracked in-app rather than via data-umami-event: the Umami tracker holds a
   // tagged link's navigation until its send settles, and misses clicks made
   // before it loads.
-  banner.querySelector('.pro-banner-cta')!.addEventListener('click', () => {
+  banner.querySelector('.pro-banner-cta')?.addEventListener('click', () => {
     trackProBannerClick(returning ? 'lapsed' : 'upgrade');
   });
 
-  banner.querySelector('.pro-banner-close')!.addEventListener('click', (e) => {
+  banner.querySelector('.pro-banner-close')?.addEventListener('click', (e) => {
     e.preventDefault();
     dismiss();
   });
