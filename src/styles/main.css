@@ -19865,6 +19865,10 @@ button.popup-link {
   border-radius: 4px;
 }
 
+.pro-banner[data-billing-state="upgrade"] .pro-banner-text strong {
+  color: rgb(230, 57, 70);
+}
+
 .pro-banner-cta {
   padding: 4px 14px;
   font-family: var(--font-mono);

@@ -7,7 +7,7 @@ import { expect, test, type Page } from '@playwright/test';
 // narrow screens that line must be readable in full inside the 40px slot the
 // pre-paint script reserves (a taller strip would shift the dashboard).
 
-const HEADLINE = 'Daily AI enabled Threat Alerts';
+const HEADLINE = 'Daily AI enabled Strat Threat Alerts';
 const SLOT_HEIGHT = 40;
 
 async function openFreeDashboard(page: Page, path = '/'): Promise<void> {
